@@ -1,38 +1,48 @@
-soma = 0
-total = 0
-jovem = 0
-adulto = 0
-idoso = 0
+def pegaEntradas(mensagem):
+    entradas = []
+    while True:
+        entrada = str(input(mensagem))
+        if (entrada == "fim" or len(entradas) >= 40):
+            break
+        
+        entradas.append(int(entrada))
+    
+    return entradas
 
-while True:
-    entrada = str(input("Digite sua idade: "))
-    if (entrada == "fim"):
-        break
+def gerarMedia(entradas):
+    soma = 0
+    
+    if (len(entradas) == 0):
+        return soma
+    
+    for entrada in entradas:
+        soma += entrada
+    return soma / len(entradas)
+
+def categorizar(entradas):
+    jovem = adulto = idoso = -1
+    for entrada in entradas:
+        if entrada <= 25 and entrada > jovem:
+            jovem = entrada
+        elif entrada <= 60 and entrada > adulto:
+            adulto = entrada
+        elif entrada > 60 and entrada > idoso:
+            idoso = entrada
+    return [jovem, adulto, idoso]
+
+def renderizarEntradaCategorizada(entrada):
+    if (entrada >= 0):
+        return entrada
     else:
-        numeroEntrada = int(entrada)
-        soma = soma + numeroEntrada
-        total = total + 1
-        if numeroEntrada <= 25 and numeroEntrada > jovem:
-            jovem = numeroEntrada
-        elif numeroEntrada <= 60 and numeroEntrada > adulto:
-            adulto = numeroEntrada
-        elif numeroEntrada > idoso:
-            idoso = numeroEntrada
-    if total >= 40:
-        break
+        return "Não existe"
 
-media = soma / total
+entradas = pegaEntradas("Digite sua idade: ")
 
-print("Media: " + str(media))
+media = gerarMedia(entradas)
 
-print("A media é: ")
-if media <= 25:
-    print("Jovem")
-elif media <= 60:
-    print("adulto")
-else:
-    print("idoso")
+entradasCategorizadas = categorizar(entradas)
 
-print("O mais jovem " + str(jovem))
-print("O mais adulto " + str(adulto))
-print("O mais idoso " + str(idoso))
+print("Média: ", media)
+print("O mais jovem é: ", renderizarEntradaCategorizada(entradasCategorizadas[0]))
+print("O mais adulto é: ", renderizarEntradaCategorizada(entradasCategorizadas[1]))
+print("O mais idoso é: ", renderizarEntradaCategorizada(entradasCategorizadas[2]))
